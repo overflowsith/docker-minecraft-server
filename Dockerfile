@@ -12,5 +12,7 @@ VOLUME /data
 
 EXPOSE 25565
 
+COPY server.properties /data/server.properties
+
 CMD echo eula=true > /data/eula.txt \
   && java -jar -Xms1G -Xmx2G -d64 /minecraft_server.${MINECRAFT_VERSION}.jar nogui
