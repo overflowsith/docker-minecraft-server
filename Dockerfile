@@ -1,11 +1,11 @@
-FROM debian:jessie
+FROM ubuntu:18.04
 
-ENV MINECRAFT_VERSION 1.12.2
+#ENV MINECRAFT_VERSION 1.14.4
 
-RUN echo "deb http://http.debian.net/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list; \
-    apt-get -y update; \
-    apt install -y -t jessie-backports openjdk-8-jre-headless ca-certificates-java wget; \
-    wget -q https://s3.amazonaws.com/Minecraft.Download/versions/${MINECRAFT_VERSION}/minecraft_server.${MINECRAFT_VERSION}.jar;
+RUN apt -y update; \
+    apt -y upgrade; \
+    apt install -y --no-install-recommends software-properties-common openjdk-8-jdk-headless wget; \
+    wget -q https://launcher.mojang.com/v1/objects/3dc3d84a581f14691199cf6831b71ed1296a9fdf/server.jar;
 
 WORKDIR /data
 VOLUME /data
@@ -15,4 +15,4 @@ EXPOSE 25565
 COPY server.properties /data/server.properties
 
 CMD echo eula=true > /data/eula.txt \
-  && java -jar -Xms1G -Xmx2G -d64 /minecraft_server.${MINECRAFT_VERSION}.jar nogui
+  && java -jar -Xms1G -Xmx2G -d64 /server.jar nogui
